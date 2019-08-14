@@ -6,15 +6,10 @@ export default function ToDoForm(props){
     // console.log(props,'noob')
     const [form, setForm] = useState()
     const [state, dispatch] = useReducer(reducer, initialState)
-    console.log('Form', state )
-
+    // console.log('Form', state )
     const handleChanges = (e) => {
         setForm(e.target.value)
     }
-
-    // const toggleItem = (e)
-
-
     return(
         <div>
             <div>
@@ -22,14 +17,17 @@ export default function ToDoForm(props){
                 <button onClick={() => dispatch({type: 'UPDATE_ITEM', payload: form})}>Submit</button>
             </div>
             {state.map((e)=> {
-                console.log(e)
                 return (
                     <div>
-                        <p>{e.item}</p>
-                        <button onClick={() => dispatch({type: 'REMOVE_ITEM'})}>Remove</button>
+                        {e.completed === true ? 
+                            (<p className='add-line' onClick={() => dispatch({type: 'TOGGLE_ITEM', payload: e})}>{e.item}</p>
+                            ) : (<p onClick={() => dispatch({type: 'TOGGLE_ITEM', payload: e})}>{e.item}</p>)} 
+
+                        <button onClick={() => dispatch({type: 'REMOVE_ITEM', payload: e})}>Remove</button>
                     </div>
                 )
             })}
+            {console.log(state)}
         </div>
     )
 }
